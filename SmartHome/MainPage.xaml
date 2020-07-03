@@ -54,6 +54,7 @@
         <Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
+		    <RowDefinition Height="180"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
@@ -67,7 +68,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  Margin="40,60,40,0">
+                  Margin="35,65,40,0">
 
                 <Label Style="{StaticResource TopIconLabelStyle}"
 						Text="{x:Static icons:IconFont.Menu}"/>
@@ -79,7 +80,7 @@
             </Grid>
 
             <StackLayout Orientation="Vertical"
-                         Margin="40,120,0,0">
+                         Margin="40,140,0,0">
 
                 <Label Text="Welcome Home"
                        TextColor="White" />
@@ -97,7 +98,8 @@
 
 
         <!--Items-->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+			  HeightRequest="300">
             <cards:CarouselView ItemsSource="{Binding  Items}"
                                 Margin="0,60,0,0">
                 <cards:CarouselView.ItemTemplate>
@@ -105,10 +107,11 @@
 
                         <pancakeview:PancakeView CornerRadius="10"
 												 Margin="30,0,30,0"
-												 HeightRequest="270"
+												 HeightRequest="200"
 												 BorderThickness="2"
-												 BorderGradientStartColor="#341E35"
-												 BorderGradientEndColor="#343C49">
+												 BorderGradientStartColor="#9B89B3"
+												 BorderGradientEndColor="#845EC2"
+												 >
 
                             <Grid>
 
@@ -203,9 +206,11 @@
             </cards:CarouselView>
         </Grid>
 
+		<Grid  Grid.Row="2">
 
+		</Grid>
 		<!--Tabbar-->
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
 			  BackgroundColor="#11111B">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"/>
