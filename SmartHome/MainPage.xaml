@@ -1,7 +1,250 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SmartHome.MainPage">
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView"
+        xmlns:smarthome="clr-namespace:SmartHome"
+        xmlns:icons="clr-namespace:SmartHome.Icons"
+	    xmlns:indicator="clr-namespace:PanCardView.Controls;assembly=PanCardView"
+        xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    mc:Ignorable="d"
+    x:Class="SmartHome.MainPage"
+    BackgroundColor="#2D3039">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+        <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+            <On Platform="iOS" Value="Material Design Icons" />
+            <On Platform="Android" Value="materialdesignicons.ttf#Material Design Icons" />
+            <On Platform="UWP" Value="Assets/Fonts/materialdesignicons-webfont.ttf#Material Design Icons" />
+        </OnPlatform>
+
+        <Style x:Key="BottomTextLabelStyle" TargetType="Label">
+				<Setter Property="HorizontalOptions" Value="Center"/>
+				<Setter Property="TextColor" Value="White"/>
+				<Setter Property="FontSize" Value="12"/>
+			</Style>
+
+			<Style x:Key="BottomIconLabelStyle" TargetType="Label">
+				<Setter Property="HorizontalOptions" Value="Center"/>
+				<Setter Property="TextColor" Value="White"/>
+				<Setter Property="FontSize" Value="25"/>
+				<Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
+			</Style>
+
+        <Style x:Key="TopIconLabelStyle" TargetType="Label">
+				<Setter Property="TextColor" Value="White"/>
+				<Setter Property="FontSize" Value="25"/>
+				<Setter Property="FontFamily" Value="{StaticResource MaterialFontFamily}"/>
+			</Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <smarthome:MainViewModel />
+    </ContentPage.BindingContext>
+
+
+    <Grid RowSpacing="20">
+
+        <Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+
+        <!--Topbar Menu-->
+        <Grid Grid.Row="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  Margin="40,60,40,0">
+
+                <Label Style="{StaticResource TopIconLabelStyle}"
+						Text="{x:Static icons:IconFont.Menu}"/>
+
+				<Label Style="{StaticResource TopIconLabelStyle}"
+					   Text="{x:Static icons:IconFont.Account}"
+					   HorizontalOptions="End"/>
+
+            </Grid>
+
+            <StackLayout Orientation="Vertical"
+                         Margin="40,120,0,0">
+
+                <Label Text="Welcome Home"
+                       TextColor="White" />
+
+                <Label Text="Baris!"
+                       TextColor="White"
+                       FontSize="Title"
+                       FontAttributes="Bold"/>
+
+                <Label Text="Currently you have 3 rooms to manage"
+					   TextColor="White"/>
+
+            </StackLayout>
+        </Grid>
+
+
+        <!--Items-->
+        <Grid Grid.Row="1">
+            <cards:CarouselView ItemsSource="{Binding  Items}"
+                                Margin="0,60,0,0">
+                <cards:CarouselView.ItemTemplate>
+                    <DataTemplate>
+
+                        <pancakeview:PancakeView CornerRadius="10"
+												 Margin="30,0,30,0"
+												 HeightRequest="270"
+												 BorderThickness="2"
+												 BorderGradientStartColor="#341E35"
+												 BorderGradientEndColor="#343C49">
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+
+                                <StackLayout Orientation="Vertical" Margin="15,20,0,0">
+
+									<Label Text="{Binding Title}" TextColor="White" FontSize="18" />
+									<Label Text="{Binding Description}" TextColor="White" FontAttributes="Bold"/>
+									<StackLayout Orientation="Horizontal">
+
+										<Label FontFamily="{StaticResource MaterialFontFamily}"
+											   Text="{x:Static icons:IconFont.CircleMedium}"
+											   TextColor="Green"/>
+
+										<Label Text="Camera" TextColor="White" FontSize="10"/>
+									</StackLayout>
+								</StackLayout>
+
+                                <Grid Grid.Row="1"
+									  RowSpacing="0"
+									  Margin="3,30,0,0">
+
+									<StackLayout Orientation="Vertical"
+												 Spacing="5">
+
+										<Grid Grid.Row="0">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+											</Grid.ColumnDefinitions>
+
+											<StackLayout Orientation="Horizontal" 
+												 Margin="15,0,0,0"
+														 Spacing="5"
+												 Grid.Column="0" >
+
+												<Label FontFamily="{StaticResource MaterialFontFamily}"
+											   Text="{x:Static icons:IconFont.CoolantTemperature }"
+											   TextColor="White"/>
+												<Label Text="Temperature Inside " TextColor="White" FontSize="10"/>
+											</StackLayout>
+
+											<Label Text="{Binding Temperature}"
+											   HorizontalOptions="End" 
+											   Grid.Column="1" 
+											   Margin="0,0,20,0" 
+											   TextColor="White" 
+											   FontSize="14" />
+
+										</Grid>
+
+										<Grid Grid.Row="1"
+										      Margin="15,0,0,0">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition/>
+												<ColumnDefinition/>
+											</Grid.ColumnDefinitions>
+
+											<StackLayout Orientation="Horizontal" VerticalOptions="Start" Spacing="5" >
+
+												<Label FontFamily="{StaticResource MaterialFontFamily}"
+													   Text="{x:Static icons:IconFont.Flash }"
+													   TextColor="White"/>
+												<Label Text="Power on" 
+													   TextColor="White"
+													   VerticalOptions="Center"
+													   FontSize="10"/>
+											</StackLayout>
+
+											<Label FontFamily="{StaticResource MaterialFontFamily}"
+												   Grid.Column="1"
+												   HorizontalTextAlignment="End"
+													Margin="0,0,20,0" 
+												   Text="{x:Static icons:IconFont.CircleMedium}"
+												   TextColor="Green"/>
+
+										</Grid>
+									</StackLayout>
+
+								</Grid>
+
+                            </Grid>
+
+                        </pancakeview:PancakeView>
+
+                    </DataTemplate>
+                </cards:CarouselView.ItemTemplate>
+            </cards:CarouselView>
+        </Grid>
+
+
+		<!--Tabbar-->
+        <Grid Grid.Row="2"
+			  BackgroundColor="#11111B">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<StackLayout Orientation="Vertical" VerticalOptions="Center">
+
+				<Label Style="{StaticResource BottomIconLabelStyle}"
+					   Text="{x:Static icons:IconFont.AccessPoint}"/>
+
+				<Label Text="Sensors" 
+					   Style="{StaticResource BottomTextLabelStyle}"/>
+
+			</StackLayout>
+
+
+			<StackLayout Orientation="Vertical" Grid.Column="1" VerticalOptions="Center">
+				<Label Style="{StaticResource BottomIconLabelStyle}"
+					   Text="{x:Static icons:IconFont.RoomServiceOutline}"/>
+
+				<Label Text="Rooms"  
+					   Style="{StaticResource BottomTextLabelStyle}"/>
+
+			</StackLayout>
+
+
+			<StackLayout Orientation="Vertical" Grid.Column="2" VerticalOptions="Center">
+
+				<Label Style="{StaticResource BottomIconLabelStyle}"
+					   Text="{x:Static icons:IconFont.CameraIris}"
+					   FontSize="25"/>
+
+				<Label Text="Camera" 
+					    Style="{StaticResource BottomTextLabelStyle}"/>
+
+			</StackLayout>
+
+		</Grid>
+    </Grid>
 </ContentPage>
